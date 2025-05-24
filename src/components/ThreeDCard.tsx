@@ -60,6 +60,7 @@ export function ThreeDCard({
             width={300}
             className="h-64 sm:h-72 md:h-80 w-full object-cover rounded-md group-hover/card:shadow-xl"
             alt="thumbnail"
+            priority
           />
         </CardItem>
 
