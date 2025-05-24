@@ -2,7 +2,7 @@
 import localFont from "next/font/local";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { motion, useAnimation } from "framer-motion";
 
 const myFont = localFont({
@@ -12,13 +12,13 @@ const myFont = localFont({
 const AboutPage = () => {
   const controls = useAnimation();
   const [direction, setDirection] = useState(1);
-  let lastScrollY = 0;
+  const lastScrollY = useRef(0);
 
   useEffect(() => {
     const handleScroll = () => {
       const currentY = window.scrollY;
-      setDirection(currentY > lastScrollY ? 1 : -1);
-      lastScrollY = currentY;
+      setDirection(currentY > lastScrollY.current ? 1 : -1);
+      lastScrollY.current = currentY;
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
@@ -42,7 +42,6 @@ const AboutPage = () => {
 
   return (
     <div className="relative w-full min-h-screen overflow-hidden">
-      {/* Background */}
       <div className="absolute inset-0 -z-10">
         <Image
           src="/background.jpg"
@@ -53,9 +52,7 @@ const AboutPage = () => {
         />
       </div>
 
-      {/* Foreground */}
       <div className="flex flex-col min-h-screen z-10 text-black px-6 md:px-12 lg:px-24 py-10 md:py-16">
-        {/* Header */}
         <div className="flex items-center">
           <Image
             src="/star.svg"
@@ -67,14 +64,12 @@ const AboutPage = () => {
           <h1 className="text-sm md:text-md font-semibold py-8 px-2">ABOUT</h1>
         </div>
 
-        {/* Title */}
         <h1
           className={`text-4xl md:text-6xl lg:text-8xl font-normal px-1 ${myFont.className}`}
         >
           Live Goa — Expert real estate for homes from beaches to villages
         </h1>
 
-        {/* Description */}
         <div className="w-full mt-10 flex flex-col lg:flex-row gap-6">
           <div className="lg:w-1/2 text-black px-2 md:px-4 lg:px-6 py-6 font-semibold text-lg md:text-2xl">
             Goa Real Estate is a full-service real estate firm dedicated to
@@ -103,7 +98,6 @@ const AboutPage = () => {
         </div>
       </div>
 
-      {/* Marquee Text Animation */}
       <div className="relative w-screen h-[15vw] overflow-hidden py-8 flex items-center mb-4">
         <motion.div
           className="absolute top-0 left-0 flex whitespace-nowrap"
